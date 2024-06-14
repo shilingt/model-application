@@ -282,17 +282,17 @@ def get_risk_X_test_scaled (df):
 def risk_ensemble_predict(df):
     # Load models
     rf_model = load('risk_randomforest.pkl')
-    #bbc_model = load('risk_bbc.pkl')
+    bbc_model = load('risk_bbc.pkl')
     lr_model = load('risk_logistic.pkl')
 
     # Make predictions
     X_test = get_risk_X_test_scaled(df)
     rf_preds = rf_model.predict(X_test)
-    #bbc_preds = bbc_model.predict(X_test)
+    bbc_preds = bbc_model.predict(X_test)
     lr_preds = lr_model.predict(X_test)
 
     # Majority voting
-    preds = np.array([rf_preds, lr_preds])
+    preds = np.array([rf_preds, bbc_preds, lr_preds])
     majority_vote_preds = mode(preds, axis=0).mode
     
     # Decode the integer predictions back to original labels
